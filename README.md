@@ -1,1 +1,1 @@
-# labo-2-domotica-briavers
+# labo-domotica-briavers
