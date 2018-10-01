@@ -6,6 +6,7 @@ from time import time, sleep
 import os
 import sys
 import subprocess
+import json
 
 
 
@@ -26,27 +27,26 @@ try:
     })
 
     # As an admin, the app has access to read and write all data
-    characters = db.reference('arcades/538398996695/data')
-    ref = db.reference('arcades')
-    #print(ref.get())
+    ref = db.reference('users/')
+    print(ref.get())
 
 except:
     print('Unable to initialize Firebase: {}'.format(sys.exc_info()[0]))
     sys.exit(1)
     
-
 def main():
   #the colors 
-  code = ref.get();
-  data = (code.get('1538401139044'));
-  colors = (data.get('data'));
-  print(colors[0]);
-  colorTest = ['(255,0,0)', '(255,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(255,0,0)', '(255,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)', '(0,0,0)'];
+  user = ref.get();
+  
+  print('jsonData'); 
+  print(type(user)); 
 
-  sense.set_pixels(colors)
-  sleep(5)
-  sense.clear();
+  jsonData = json.loads(user)
+  print(jsonData); 
 
+  print('lights'); 
+  print(jsonData["kcHAmoS4bQQ8AARlHNJyAoVmTLy1"]["data"]["door"]["door1"]);
+  
 if __name__ == "__main__":
     try:
         main()

@@ -46,25 +46,32 @@ function changeColor(i, j){
 
 
 function createChar(){
-      let data = [];
-      for (let i = 0; i < 8; i++) {
-        
-        for (let j = 0; j < 8; j++) {
-          if (document.getElementById(`${i},${j}`).style.backgroundColor == ""){
-            data.push('(0,0,0)');
-            
-          }else{
-            data.push('(255,0,0)');
-          }
+  data = { 
+    light: {
+      licht1: '#FFFFFF',
+      licht2: '#FFFFFF',
+      licht3: '#000000',
+      licht4: '#FFFFFF',
+    },
+    socket: {
+      socket1: true,
+      socket2: false,
+      socket3: true,
+      socket4: true
+    },
+    door:{
+      door1: true,
+      door2: false
+    }
+  };
 
-      }
-      console.log(data)
-      DBPush(data)
-    };
-    };
+  DBPush(data)
+  };
+
 let name = new Date().getTime();
 function DBPush(data){
-  firebase.database().ref('arcades/' + name ).set({
+  user = 'kcHAmoS4bQQ8AARlHNJyAoVmTLy1'
+  firebase.database().ref('users/' + user ).set({
     data,
   });
 }
