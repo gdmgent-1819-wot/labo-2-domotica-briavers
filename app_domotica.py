@@ -1,3 +1,12 @@
+#THE ALARM THAT DOESN'T WORK YET
+    # while(evaluation == ['ALARM']): 
+    #     def alarm(): 
+    #         sense.clear((000, 000, 255))
+    #         sleep(sleeping)
+    #         sense.clear((30, 30, 255))
+    #         sleep(sleeping)
+    #         alarm()
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
@@ -6,8 +15,9 @@ from time import time, sleep
 import os
 import sys
 import subprocess
-import json
-
+import numpy as np
+from ast import literal_eval
+import threading
 
 
 
@@ -27,30 +37,68 @@ try:
     })
 
     # As an admin, the app has access to read and write all data
-    ref = db.reference('users/')
-    print(ref.get())
+    ref = db.reference('domotica/liveExample')
+    #print(ref.get())
 
 except:
     print('Unable to initialize Firebase: {}'.format(sys.exc_info()[0]))
     sys.exit(1)
     
+
+
 def main():
   #the colors 
-  user = ref.get();
-  
-  print('jsonData'); 
-  print(type(user)); 
+  code = ref.get();
+# for key in code.keys():
+#   print(key)
+#   print(code[key]['data'])
+#   data = (code.get('1538401139044'));
+#   colors = (data.get('data'));
+#   toPrintColors = []
 
-  jsonData = json.loads(user)
-  print(jsonData); 
+# #create a array of tulp types out of the list of strings
+#   for i in range(len(colors)): 
+#     toPrintColors.append(literal_eval(colors[i]))
+#   #print(toPrintColors)
+# #print the pixels out on the led display
+#   sense.set_pixels(toPrintColors)
+# #keep them on there for 5 seconds
+#   sleep(2)
+# #clear the screen 
+#   sense.clear();
 
-  print('lights'); 
-  print(jsonData["kcHAmoS4bQQ8AARlHNJyAoVmTLy1"]["data"]["door"]["door1"]);
-  
+#play them all
+  #loop trough every key that is received from the database
+  for key in code.keys():
+    print("key")
+    print(key)
+    #create a variable for the dataset 
+    evaluation = code[key]
+    # print(evaluation)
+
+    #create an empty array in wich we will put the led matrix
+    toPrintColors = []
+    # create a array of tulp types out of the list of strings
+    for j in range(len(evaluation)): 
+      #for every value in the list create a tulp value in the new array
+      toPrintColors.append(literal_eval(evaluation[j]))
+    #set the array to display to the led screen for 5 seconds   
+    sense.set_pixels(toPrintColors)
+    sleep(1)
+    sense.clear();
+  #rerun main to create the loop
+  main()
+
+
+
+
+
+
 if __name__ == "__main__":
     try:
         main()
     except (KeyboardInterrupt, SystemExit):
+        sense.clear();
         print('Interrupt received! Stopping the application...')
     finally:
         print('Cleaning up the mess...')
